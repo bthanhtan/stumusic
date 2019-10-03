@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-class SongController extends Controller
+use App\Musician;
+class MusicianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,8 @@ class SongController extends Controller
      */
     public function index()
     {
-        //
+        $musicians = Musician::select()->get();
+        return view('admin.musician.list', ['musicians' => $musicians]);
     }
 
     /**
@@ -23,7 +24,7 @@ class SongController extends Controller
      */
     public function create()
     {
-        return view('admin.song.form');
+        return view('admin.musician.form');
     }
 
     /**
@@ -34,7 +35,14 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rule=[
+            'name' =>  "required",
+            'content' =>  "required",
+        ];
+        $request->validate($rule);
+        $data_create = $request->all();
+        Musician::create($data_create);
+        return redirect()->route('admin.musician_index');
     }
 
     /**
@@ -56,7 +64,8 @@ class SongController extends Controller
      */
     public function edit($id)
     {
-        //
+        $musician = Musician::find($id);
+        return view('admin.musician.form',['musician' => $musician]);    
     }
 
     /**
@@ -68,7 +77,15 @@ class SongController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rule=[
+            'name' =>  "required",
+            'content' =>  "required",
+        ];
+        $musician = Musician::find($id);
+        $request->validate($rule);
+        $data_update = $request->all();
+        $musician->update($data_update);  
+        return redirect()->route('admin.musician_index');
     }
 
     /**
@@ -79,6 +96,8 @@ class SongController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $musician = Musician::find($id);
+        $musician->delete();
+        return redirect()->route('admin.musician_index');
     }
 }

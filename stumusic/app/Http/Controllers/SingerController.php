@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-class SongController extends Controller
+use App\Singer;
+class SingerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,8 @@ class SongController extends Controller
      */
     public function index()
     {
-        //
+        $singers = Singer::select()->get();
+        return view('admin.singer.list', ['singers' => $singers]);
     }
 
     /**
@@ -23,7 +24,7 @@ class SongController extends Controller
      */
     public function create()
     {
-        return view('admin.song.form');
+        return view('admin.singer.form');
     }
 
     /**
@@ -34,7 +35,15 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $rule=[
+            'name' =>  "required",
+            'content' =>  "required",
+        ];
+        $request->validate($rule);
+        $data_create = $request->all();
+        Singer::create($data_create);
+        return redirect()->route('admin.singer_index');
     }
 
     /**
@@ -56,7 +65,8 @@ class SongController extends Controller
      */
     public function edit($id)
     {
-        //
+        $singer = Singer::find($id);
+        return view('admin.singer.form',['singer' => $singer]);    
     }
 
     /**
@@ -68,7 +78,15 @@ class SongController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rule=[
+            'name' =>  "required",
+            'content' =>  "required",
+        ];
+        $singer = Singer::find($id);
+        $request->validate($rule);
+        $data_update = $request->all();
+        $singer->update($data_update);  
+        return redirect()->route('admin.singer_index');
     }
 
     /**
@@ -79,6 +97,8 @@ class SongController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $singer = Singer::find($id);
+        $singer->delete();
+        return redirect()->route('admin.singer_index');
     }
 }

@@ -14,7 +14,7 @@
 		<div style="color: red;">{{$error}}</div>
 	@endforeach
 @endif
-<form  action="{{ isset($musician->id) ? route('admin.musician_update', ['id' => $musician->id]) : route('admin.musician_store')}}" method="post">
+<form  action="{{ isset($musician->id) ? route('admin.musician_update', ['id' => $musician->id]) : route('admin.musician_store')}}" method="post" enctype="multipart/form-data">
 	@csrf
 	@if (isset($musician->id)) 
 	@method('put')
@@ -26,8 +26,13 @@
 	</div>
 	<div class="form-group">
 		<label>image</label>
-		<input type="text" class="form-control" name="image" value="{{ old('image', $musician->image ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">hình ảnh ca sỹ</small>
+		<input type="file" class="form-control" name="image">
+		<small id="emailHelp" class="form-text text-muted">hình ảnh nhạc sỹ</small>
+	</div>
+	<div class="form-group">
+		<label>image_old</label>
+		<input type="text" class="form-control" name="image_old" value="{{ old('image', $musician->image ?? '') }}">
+		<small id="emailHelp" class="form-text text-muted">hình ảnh nhạc sỹ</small>
 	</div>
 	<div class="form-group">
 		<label>content</label>

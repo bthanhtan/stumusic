@@ -35,14 +35,23 @@ class MusicianController extends Controller
      */
     public function store(Request $request)
     {
+        
         $rule=[
             'name' =>  "required",
             'content' =>  "required",
         ];
         $request->validate($rule);
         $data_create = $request->all();
+        $data_create['image'] = $this->uploadImage($request->image);
         Musician::create($data_create);
         return redirect()->route('admin.musician_index');
+    }
+    public function uploadImage($img){
+        $name = md5(uniqid(rand(), true)).'_'.time().'.'.$img->getClientOriginalExtension(); 
+        $destinationPath = public_path('uploads'); 
+        $img->move($destinationPath, $name);
+        $nameReturn = 'uploads/'.$name; 
+        return $nameReturn;
     }
 
     /**
@@ -77,6 +86,7 @@ class MusicianController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $rule=[
             'name' =>  "required",
             'content' =>  "required",
@@ -84,7 +94,10 @@ class MusicianController extends Controller
         $musician = Musician::find($id);
         $request->validate($rule);
         $data_update = $request->all();
-        $musician->update($data_update);  
+        $data_update['image'] = $this->uploadImage($request->image);
+        if ($musician->update($data_update)) {
+             unlink(public_path($data_update['image_old']));
+         } 
         return redirect()->route('admin.musician_index');
     }
 
@@ -97,7 +110,10 @@ class MusicianController extends Controller
     public function destroy($id)
     {
         $musician = Musician::find($id);
-        $musician->delete();
+        $link_image= $musician['image'];
+        if ($musician->delete()) {
+            unlink(public_path($link_image));
+        }
         return redirect()->route('admin.musician_index');
     }
 }

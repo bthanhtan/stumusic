@@ -36,7 +36,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::post('/musician/store', 'MusicianController@store')->name('musician_store');
     Route::get('/musician/edit/{id}', 'MusicianController@edit')->name('musician_edit');
     Route::put('/musician/update/{id}', 'MusicianController@update')->name('musician_update');
-    Route::delete('/singer/delete/{id}', 'MusicianController@destroy')->name('musician_delete');
+    Route::delete('/musician/delete/{id}', 'MusicianController@destroy')->name('musician_delete');
 
     Route::get('/song', 'SongController@index')->name('song_index');
     Route::get('/song/create', 'SongController@create')->name('song_create');

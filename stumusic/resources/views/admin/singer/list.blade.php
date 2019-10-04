@@ -34,7 +34,7 @@
       <td>{{$singer->content}}</td>
       <td>
       	<a href="{{route('admin.singer_edit',['id'=>$singer->id])}}" class="btn btn-warning">Edit</a> <br>
-      	<form action="{{route('admin.singer_delete',['id'=>$singer->id])}}" method="post" accept-charset="utf-8">
+      	<form action="{{route('admin.singer_delete', ['id' => $singer->id])}}" method="post" accept-charset="utf-8">
       		@csrf
       		@method('delete')
       		<button type="submit" class="btn btn-danger">Delete</button>

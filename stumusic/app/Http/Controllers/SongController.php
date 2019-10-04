@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Singer;
+use App\Song;
+use App\Musician;
+use App\Collection;
 class SongController extends Controller
 {
     /**
@@ -23,7 +26,10 @@ class SongController extends Controller
      */
     public function create()
     {
-        return view('admin.song.form');
+        $singers = Singer::select()->get();
+        $mucicians = Musician::select()->get();
+        $collections = Collection::select()->get();
+        return view('admin.song.form',['singers' => $singers, 'mucicians' => $mucicians, 'collections' => $collections]);
     }
 
     /**
@@ -34,7 +40,7 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

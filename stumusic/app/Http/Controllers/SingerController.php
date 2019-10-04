@@ -24,6 +24,7 @@ class SingerController extends Controller
      */
     public function create()
     {
+
         return view('admin.singer.form');
     }
 
@@ -42,8 +43,16 @@ class SingerController extends Controller
         ];
         $request->validate($rule);
         $data_create = $request->all();
+        $data_create['image'] = $this->uploadImage($request->image);
         Singer::create($data_create);
         return redirect()->route('admin.singer_index');
+    }
+    public function uploadImage($img){
+        $name = md5(uniqid(rand(), true)).'_'.time().'.'.$img->getClientOriginalExtension(); 
+        $destinationPath = public_path('uploads'); 
+        $img->move($destinationPath, $name);
+        $nameReturn = 'uploads/'.$name; 
+        return $nameReturn;
     }
 
     /**
@@ -82,10 +91,13 @@ class SingerController extends Controller
             'name' =>  "required",
             'content' =>  "required",
         ];
-        $singer = Singer::find($id);
+        $musician = Singer::find($id);
         $request->validate($rule);
         $data_update = $request->all();
-        $singer->update($data_update);  
+        $data_update['image'] = $this->uploadImage($request->image);
+        if ($musician->update($data_update)) {
+             unlink(public_path($data_update['image_old']));
+         } 
         return redirect()->route('admin.singer_index');
     }
 
@@ -98,7 +110,10 @@ class SingerController extends Controller
     public function destroy($id)
     {
         $singer = Singer::find($id);
-        $singer->delete();
+        $link_image= $musician['image'];
+        if ($singer->delete()) {
+            unlink(public_path($link_image));
+        }
         return redirect()->route('admin.singer_index');
     }
 }

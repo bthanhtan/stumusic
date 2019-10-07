@@ -17,6 +17,7 @@ class CreateUrlSongsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('song_id');
             $table->string('url');
+            $table->morphs('url_table');
             $table->timestamps();
         });
     }

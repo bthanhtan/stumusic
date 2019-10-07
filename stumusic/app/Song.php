@@ -11,8 +11,9 @@ class Song extends Model
     {
     	return $this->belongTo('App\Collection');
     }
-     public function images()
+    public function urlSong()
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'url_table');
     }
+    
 }

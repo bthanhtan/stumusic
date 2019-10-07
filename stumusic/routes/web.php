@@ -44,6 +44,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::get('/song/edit/{id}', 'SongController@edit')->name('song_edit');
     Route::put('/song/update/{id}', 'SongController@update')->name('song_update');
     Route::delete('/song/delete/{id}', 'SongController@destroy')->name('song_delete');
+    Route::post('/song/check_file', 'SongController@check_file')->name('song_check_file');
 });
 
 
@@ -52,14 +53,3 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

@@ -14,7 +14,7 @@
 		<div style="color: red;">{{$error}}</div>
 	@endforeach
 @endif
-<form  action="{{ isset($song->id) ? route('admin.song_update', ['id' => $song->id]) : route('admin.song_store')}}" method="post">
+<form  action="{{ isset($song->id) ? route('admin.song_update', ['id' => $song->id]) : route('admin.song_store')}}" method="post" enctype="multipart/form-data">
 	@csrf
 	@if (isset($song->id)) 
 	@method('put')
@@ -27,8 +27,13 @@
 	</div>
 	<div class="form-group">
 		<label>image</label>
-		<input type="text" class="form-control" name="image" value="{{ old('image', $collection->image ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">hình ảnh</small>
+		<input type="file" class="form-control" name="image">
+		<small id="emailHelp" class="form-text text-muted">hình ảnh bài hát</small>
+	</div>
+	<div class="form-group">
+		<label>bài hát</label>
+		<input type="file" class="form-control" name="audio" onchange="check(this)">
+		<small id="emailHelp" class="form-text text-muted">link bài hát</small>
 	</div>
 	<div class="form-group">
 		<label>hot</label>
@@ -77,4 +82,8 @@
 	</div>
 	<button type="submit" class="btn btn-primary">{{ isset($collection->id) ? 'Update' : 'Create' }}</button>
 </form>
+@stop
+
+@section('javascript')
+<script src="{{ url('admin/song/abcd.js') }}"></script>
 @stop

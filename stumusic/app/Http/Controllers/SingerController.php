@@ -43,6 +43,7 @@ class SingerController extends Controller
         ];
         $request->validate($rule);
         $data_create = $request->all();
+        dd($request->image->getClientOriginalExtension());
         $data_create['image'] = $this->uploadImage($request->image);
         Singer::create($data_create);
         return redirect()->route('admin.singer_index');

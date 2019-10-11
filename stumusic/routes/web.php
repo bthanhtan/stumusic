@@ -45,6 +45,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::put('/song/update/{id}', 'SongController@update')->name('song_update');
     Route::delete('/song/delete/{id}', 'SongController@destroy')->name('song_delete');
     Route::post('/song/check_file', 'SongController@check_file')->name('song_check_file');
+    Route::post('/song/check_image', 'SongController@check_image')->name('song_check_image');
 });
 
 

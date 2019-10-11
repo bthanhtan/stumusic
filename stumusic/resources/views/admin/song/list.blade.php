@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', 'list Collection')
+@section('title', 'list song')
 
 @section('sidebar')
     @parent
@@ -14,7 +14,7 @@
 		<div style="color: red;">{{$error}}</div>
 	@endforeach
 @endif
-<a href="{{route('admin.collection_create')}}" class="btn btn-primary">Create</a>
+<a href="{{route('admin.song_create')}}" class="btn btn-primary">Create</a>
 <table class="table">
   <thead>
     <tr>
@@ -26,15 +26,15 @@
     </tr>
   </thead>
   <tbody>
-  	@foreach ($collections as $key => $collection)
+  	@foreach ($songs as $key => $song)
     <tr>
       <th scope="row">{{$key + 1}}</th>
-      <td>{{$collection->name}}</td>
-      <td>{{$collection->country}}</td>
-      <td>{{$collection->type}}</td>
+      <td>{{$song->name}}</td>
+      <td>{{$song->country}}</td>
+      <td>{{$song->type}}</td>
       <td>
-      	<a href="{{route('admin.collection_edit',['id'=>$collection->id])}}" class="btn btn-warning">Edit</a> <br>
-      	<form action="{{route('admin.collection_delete',['id'=>$collection->id])}}" method="post" accept-charset="utf-8">
+      	<a href="{{route('admin.song_edit',['id'=>$song->id])}}" class="btn btn-warning">Edit</a> <br>
+      	<form action="{{route('admin.song_delete',['id'=>$song->id])}}" method="post" accept-charset="utf-8">
       		@csrf
       		@method('delete')
       		<button type="submit" class="btn btn-danger">Delete</button>

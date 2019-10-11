@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrlSong extends Model
 {
-	protected $fillable = ['url','song_id',];
-    public function url_table()
+	protected $fillable = ['src', 'song_id',];
+    public function song()
     {
-    	return $this->morphTo();
+    	return $this->belongTo('App\Song');
     }
 }

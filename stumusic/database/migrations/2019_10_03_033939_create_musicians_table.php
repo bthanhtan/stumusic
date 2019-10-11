@@ -19,7 +19,6 @@ class CreateMusiciansTable extends Migration
             $table->string('image');
             $table->string('content');
             $table->string('follow');
-            $table->integer('song_id');
             $table->timestamps();
         });
     }

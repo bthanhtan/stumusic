@@ -23,5 +23,6 @@
         @yield('javascript')
         
 <script src="{{ url('jquery.js') }}"></script>
+<script src="{{ url('admin/asset/song/abcd.js') }}"></script>
     </body>
 </html>

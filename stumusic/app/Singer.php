@@ -11,4 +11,8 @@ class Singer extends Model
     {
     	return $this->hasMany('App\Song','song_id');
     }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

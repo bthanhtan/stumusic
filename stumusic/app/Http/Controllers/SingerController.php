@@ -40,12 +40,22 @@ class SingerController extends Controller
         $rule=[
             'name' =>  "required",
             'content' =>  "required",
+            'image' =>  "required",
         ];
         $request->validate($rule);
-        $data_create = $request->all();
-        dd($request->image->getClientOriginalExtension());
-        $data_create['image'] = $this->uploadImage($request->image);
-        Singer::create($data_create);
+        $data_create = [
+            'name' => $request->name,
+            'image' => $request->nameimage,
+            'content' => $request->content,
+            'follow' => 0,
+        ];
+        if ($singer = Singer::create($data_create)) {
+            $data_image = [
+               "src" => $data_create['image'],
+            ];
+            // dd($data_audio);
+            $singer->images()->create($data_image);
+        }
         return redirect()->route('admin.singer_index');
     }
     public function uploadImage($img){

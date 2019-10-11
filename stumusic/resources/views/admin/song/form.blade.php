@@ -27,25 +27,30 @@
 	</div>
 	<div class="form-group">
 		<label>image</label>
-		<input type="file" class="form-control" name="image">
-		<small id="emailHelp" class="form-text text-muted">hình ảnh bài hát</small>
+		<input id="url_image_input" type="file" class="form-control" name="image"  onchange="check_image(this)">
+
+		<img src="" id="image_change" class="img-rounded" alt="hình ảnh bài hát" style="max-width: 150px;">
+		<small id="note_image" id="emailHelp" class="form-text" style="display: none;"></small>
+	</div>
+	<div class="form-group" style="display: none;">
+		<label>NameImage</label>
+		<input id="nameimage" type="text" class="form-control" name="nameimage" value="">
 	</div>
 	<div class="form-group">
 		<label>bài hát</label>
-		<input type="file" class="form-control" name="audio" onchange="check(this)">
-		<small id="emailHelp" class="form-text text-muted">link bài hát</small>
+		<input id="url_song_input" type="file" class="form-control" name="audio" onchange="check_audio(this)">
+		<small id="note_song" class="form-text">link bài hát</small>
 	</div>
-	<div class="form-group">
-		<label>hot</label>
-		<input type="text" class="form-control" name="hot" value="{{ old('hot', $collection->hot ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">có lên trang chủ hay ko</small>
+	<div class="form-group" style="display: none;">
+		<label>NameAudio</label>
+		<input id="nameaudio" type="text" class="form-control" name="nameaudio" value="">
 	</div>
 	<div class="form-group">
 		<label>singer_id</label>
 		<select class="browser-default custom-select custom-select-lg mb-3" name="singer_id">
 		  <option selected value="0">Chưa rõ tên</option>
 		@foreach($singers as $singger)
-		  <option value="{{$singger->id}}">{{$singger->name}}</option>
+		  <option value="{{$singger->id}}" @if (old('singer_id') == $singger->id) {{ 'selected' }} @endif>{{$singger->name}}</option>
 		@endforeach
 		</select>
 		<small id="emailHelp" class="form-text text-muted">Tên ca sỹ</small>
@@ -55,7 +60,7 @@
 		<select class="browser-default custom-select custom-select-lg mb-3" name="musician_id">
 		  <option selected value="0">Chưa rõ tên</option>
 		@foreach($mucicians as $mucician)
-		  <option value="{{$mucician->id}}">{{$mucician->name}}</option>
+		  <option value="{{$mucician->id}}" @if (old('musician_id') == $mucician->id) {{ 'selected' }} @endif>{{$mucician->name}}</option>
 		@endforeach
 		</select>
 		<small id="emailHelp" class="form-text text-muted">tên nhạc sỹ</small>
@@ -63,27 +68,15 @@
 	<div class="form-group">
 		<label>type</label>
 		<select class="browser-default custom-select custom-select-lg mb-3" name="type">
-		  <option selected value="0">Chưa rõ tên</option>
-		@foreach($collections as $collections)
-		  <option value="{{$collections->id}}">nhạc {{$collections->country}}, thể loại: {{$collections->type}}</option>
-		@endforeach
+		  <option value="">Chưa rõ tên</option>
+			@foreach($collections as $collection)
+				<option value="{{$collection->id}}" @if (old('type') == $collection->id) {{ 'selected' }} @endif>nhạc {{$collection->country}}, thể loại: {{$collection->type}}</option>
+			@endforeach
 		</select>
 		<small id="emailHelp" class="form-text text-muted">tên thẻ loại nhạc</small>
-	</div>
-	<div class="form-group">
-		<label>view</label>
-		<input type="text" class="form-control" name="view" value="{{ old('view', $collection->view ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">lượt view</small>
-	</div>
-	<div class="form-group">
-		<label>heart</label>
-		<input type="text" class="form-control" name="heart" value="{{ old('heart', $collection->heart ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">bắn tim cho bài</small>
 	</div>
 	<button type="submit" class="btn btn-primary">{{ isset($collection->id) ? 'Update' : 'Create' }}</button>
 </form>
 @stop
 
-@section('javascript')
-<script src="{{ url('admin/song/abcd.js') }}"></script>
-@stop
+

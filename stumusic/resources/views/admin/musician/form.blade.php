@@ -26,28 +26,19 @@
 	</div>
 	<div class="form-group">
 		<label>image</label>
-		<input type="file" class="form-control" name="image">
-		<small id="emailHelp" class="form-text text-muted">hình ảnh nhạc sỹ</small>
+		<input id="url_image_input" type="file" class="form-control" name="image"  onchange="check_image(this)">
+
+		<img src="" id="image_change" class="img-rounded" alt="hình ảnh bài hát" style="max-width: 150px;">
+		<small id="note_image" id="emailHelp" class="form-text" style="display: none;"></small>
 	</div>
-	<div class="form-group">
-		<label>image_old</label>
-		<input type="text" class="form-control" name="image_old" value="{{ old('image', $musician->image ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">hình ảnh nhạc sỹ</small>
+	<div class="form-group" style="display: none;">
+		<label>NameImage</label>
+		<input id="nameimage" type="text" class="form-control" name="nameimage" value="">
 	</div>
 	<div class="form-group">
 		<label>content</label>
 		<input type="text" class="form-control" name="content" value="{{ old('content', $musician->content ?? '') }}">
 		<small id="emailHelp" class="form-text text-muted">thông tin về ca sỹ</small>
-	</div>
-	<div class="form-group">
-		<label>follow</label>
-		<input type="text" class="form-control" name="follow" value="{{ old('follow', $musician->follow ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">số lượt follow, cai này làm ajax khi làm xong user</small>
-	</div>
-	<div class="form-group">
-		<label>song_id</label>
-		<input type="text" class="form-control" name="song_id" value="{{ old('song_id', $musician->song_id ?? '') }}">
-		<small id="emailHelp" class="form-text text-muted">danh sách các bài hát của ca sỹ</small>
 	</div>
 	<button type="submit" class="btn btn-primary">{{ isset($musician->id) ? 'Update' : 'Create' }}</button>
 </form>

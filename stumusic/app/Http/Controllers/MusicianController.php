@@ -39,11 +39,23 @@ class MusicianController extends Controller
         $rule=[
             'name' =>  "required",
             'content' =>  "required",
+            'image' =>  "required",
         ];
         $request->validate($rule);
-        $data_create = $request->all();
-        $data_create['image'] = $this->uploadImage($request->image);
-        Musician::create($data_create);
+        $data_create = [
+            'name' => $request->name,
+            'image' => $request->nameimage,
+            'content' => $request->content,
+            'follow' => 0,
+        ];
+        // dd($data_create);
+        if ($musician = Musician::create($data_create)) {
+            $data_image = [
+               "src" => $data_create['image'],
+            ];
+            // dd($data_audio);
+            $musician->images()->create($data_image);
+        }
         return redirect()->route('admin.musician_index');
     }
     public function uploadImage($img){

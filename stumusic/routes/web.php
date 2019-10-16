@@ -23,7 +23,6 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::put('/collection/update/{id}', 'CollectionController@update')->name('collection_update');
     Route::delete('/collection/delete/{id}', 'CollectionController@destroy')->name('collection_delete');
 
-
     Route::get('/singer', 'SingerController@index')->name('singer_index');
     Route::get('/singer/create', 'SingerController@create')->name('singer_create');
     Route::post('/singer/store', 'SingerController@store')->name('singer_store');
@@ -46,6 +45,24 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::delete('/song/delete/{id}', 'SongController@destroy')->name('song_delete');
     Route::post('/song/check_file', 'SongController@check_file')->name('song_check_file');
     Route::post('/song/check_image', 'SongController@check_image')->name('song_check_image');
+
+
+
+
+
+    Route::get('/genre', 'GenreController@index')->name('genre_index');
+    Route::get('/genre/create', 'GenreController@create')->name('genre_create');
+    Route::post('/genre/store', 'GenreController@store')->name('genre_store');
+    Route::get('/genre/edit/{id}', 'GenreController@edit')->name('genre_edit');
+    Route::put('/genre/update/{id}', 'GenreController@update')->name('genre_update');
+    Route::delete('/genre/delete/{id}', 'GenreController@destroy')->name('genre_delete');
+
+    Route::get('/artist', 'SingerController@index')->name('singer_index');
+    Route::get('/artist/create', 'SingerController@create')->name('singer_create');
+    Route::post('/artist/store', 'SingerController@store')->name('singer_store');
+    Route::get('/artist/edit/{id}', 'SingerController@edit')->name('singer_edit');
+    Route::put('/artist/update/{id}', 'SingerController@update')->name('singer_update');
+    Route::delete('/artist/delete/{id}', 'SingerController@destroy')->name('singer_delete');
 });
 
 

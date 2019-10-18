@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\File;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Collection;
-use App\Singer;
+use App\Genre;
+use App\Artist;
 use App\Song;
-use App\Musician;
+use App\Author;
 use App\UrlSong;
+use App\Image;
 class SongController extends Controller
 {
     /**
@@ -31,10 +32,11 @@ class SongController extends Controller
      */
     public function create()
     {
-        $singers = Singer::select()->get();
-        $mucicians = Musician::select()->get();
-        $collections = Collection::select()->get();
-        return view('admin.song.form',['singers' => $singers, 'mucicians' => $mucicians, 'collections' => $collections]);
+        $artists = Artist::select()->get();
+        $authors = Author::select()->get();
+        $genres = Genre::select()->get();
+        // dd($artists);
+        return view('admin.song.form',['artists' => $artists, 'authors' => $authors, 'genres' => $genres]);
     }
 
     /**
@@ -45,24 +47,23 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        
         $rule=[
             'name' =>  "required",
-            'singer_id' =>  "required",
-            'musician_id' =>  "required",
-            'type' =>  "required",
-            'image' =>  "required",
-            'audio' =>  "required",
+            'nameimage' =>  "required",
+            'nameaudio' =>  "required",
+            'artist_id' =>  "required",
+            'author_id' =>  "required",
+            'genre_id' =>  "required",
         ];
         $request->validate($rule);
         $data_create = [
             'name' =>  $request->name,
+            'hot' => 0,
+            'artist_id' =>  $request->artist_id,
+            'author_id' =>  $request->author_id,
             'image' => $request->nameimage,
             'audio' => $request->nameaudio,
-            'hot' => 0,
-            'singer_id' =>  $request->singer_id,
-            'musician_id' =>  $request->musician_id,
-            'type' =>  0,
+            'genre_id' =>  $request->genre_id,
             'view' => 0,
             'heart' => 0,
         ];
@@ -74,56 +75,11 @@ class SongController extends Controller
                "src" => $data_create['audio'],
                "song_id" => $song->id,
             ];
-            // dd($data_audio);
             $song->images()->create($data_image);
             $song->urlsongs()->create($data_audio);
         }
         
         return redirect()->route('admin.song_index');
-    }
-    public function uploadImage($img){
-        $name = md5(uniqid(rand(), true)).'_'.time().'.'.$img->getClientOriginalExtension(); 
-        $destinationPath = public_path('uploads'); 
-        $img->move($destinationPath, $name);
-        $nameReturn = 'uploads/'.$name; 
-        return $nameReturn;
-    }
-    public function uploadAudio($audio, $name_request){
-        // dd($audio->getSize());
-        $name_slug = Str::slug($name_request, '-');
-        $name_change = $name_slug.'-'.Str::random(5).'.'.$audio->getClientOriginalExtension(); 
-        $destinationPath = public_path('all_song/'); 
-        $audio->move($destinationPath, $name_change);
-        $nameReturn = 'all_song/'.$name_change; 
-        return $nameReturn;
-    }
-    public function check_file(Request $request)
-    {
-        $name_request = $request->audio;
-        $rule = [ 'audio' =>'required|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav'];
-        $validator = $request->validate($rule);
-        if ($request->validate($rule) == true){
-            $name_change = md5(uniqid(rand(), true)).'_'.time().'.'.$name_request->getClientOriginalExtension();
-            $destinationPath = public_path('all_song/'); 
-            $name_request->move($destinationPath, $name_change);
-            $nameReturn = 'all_song/'.$name_change;
-            // dd($nameReturn);
-            return response()->json($nameReturn);
-        }
-        return 1; 
-    }
-    public function check_image(Request $request)
-    {
-        $img = $request->image;
-        $rule = [ 'image' => 'required|file|mimes:jpeg,jpg,png,gif|max:2048' ];
-        if ($request->validate($rule) == true) {
-            $name = md5(uniqid(rand(), true)).'_'.time().'.'.$img->getClientOriginalExtension(); 
-            $destinationPath = public_path('uploads'); 
-            $img->move($destinationPath, $name);
-            $nameReturn = 'uploads/'.$name; 
-            return response()->json($nameReturn);
-        }
-        return 1; 
     }
     /**
      * Display the specified resource.
@@ -144,7 +100,16 @@ class SongController extends Controller
      */
     public function edit($id)
     {
-        //
+        $song = Song::find($id);
+        $name_image = $song->images()->select()->get();
+        $name_audio = $song->urlsongs()->select()->get();
+        $artist = Artist::find($song->artist_id);
+        $genre = Genre::find($song->genre_id);
+        $author = Author::find($song->author_id);
+        $artists = Artist::select()->get();
+        $authors = Author::select()->get();
+        $genres = Genre::select()->get();
+        return view('admin.song.form',['song' => $song, 'artists' => $artists, 'authors' => $authors, 'genres' => $genres, 'artist' => $artist, 'genre' => $genre, 'author' => $author, 'name_image' => $name_image, 'name_audio' => $name_audio]);    
     }
 
     /**
@@ -156,7 +121,43 @@ class SongController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $rule=[
+            'name' =>  "required",
+            'nameimage' =>  "required",
+            'nameaudio' =>  "required",
+            'artist_id' =>  "required",
+            'author_id' =>  "required",
+            'genre_id' =>  "required",
+        ];
+        $request->validate($rule);
+        $data_update = [
+            'name' =>  $request->name,
+            'artist_id' =>  $request->artist_id,
+            'author_id' =>  $request->author_id,
+            'image' => $request->nameimage,
+            'audio' => $request->nameaudio,
+            'genre_id' =>  $request->genre_id,
+            'image_old' =>  $request->nameimage_old,
+            'audio_old' =>  $request->nameaudio_old,
+        ];
+        $song = Song::find($id);
+        if ($song->update($data_update)) {
+            if ($data_update['image'] != $data_update['image_old']) {
+                $data_image = [
+                   "src" => $data_update['image'],
+                ];
+                $data_audio = [
+                   "src" => $data_update['audio'],
+                   "song_id" => $song->id,
+                ];
+                $song->images()->update($data_image);
+                $song->urlsongs()->update($data_audio);
+                unlink(public_path($data_update['image_old']));
+                unlink(public_path($data_update['audio_old']));
+            }
+        }
+        return redirect()->route('admin.song_index');
     }
 
     /**
@@ -167,7 +168,21 @@ class SongController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $song = Song::find($id);
+        $id_image_song = $song->images[0]->id;
+        $id_audio_song = $song->urlsongs->id;
+        $song_image = Image::find($id_image_song);
+        $song_audio = UrlSong::find($id_audio_song);
+        $link_image= $song_image->src;
+        $link_audio= $song_audio->src;
+        // dd($link_audio);
+        if ($song->delete()) {
+            $song_image->delete();
+            $song_audio->delete();
+            unlink(public_path($link_image));
+            unlink(public_path($link_audio));
+        }
+        return redirect()->route('admin.song_index');
     }
 
 

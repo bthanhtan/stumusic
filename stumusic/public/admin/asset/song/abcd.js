@@ -10,7 +10,7 @@ function check_audio(this_btn) {
 	}
     console.log(form_data);
     $.ajax({
-        url:  local_link + "admin/song/check_file", 
+        url:  local_link + "admin/image/check_file", 
         dataType: 'json',
         cache: false,
         contentType: false,
@@ -21,6 +21,7 @@ function check_audio(this_btn) {
             $("#note_song").html("bài hát có thể upload!");
             $("#note_song").css('color', 'green');
             $("#nameaudio").val(nameReturn); 
+            $("#url_song_input").val(''); 
             console.log(nameReturn);
         },
         error: function (reject) {
@@ -48,7 +49,7 @@ function check_image(this_btn) {
     }
     console.log(form_data);
     $.ajax({
-        url:  local_link + "admin/song/check_image", 
+        url:  local_link + "admin/image/check_image", 
         dataType: 'json',
         cache: false,
         contentType: false,
@@ -58,7 +59,8 @@ function check_image(this_btn) {
         success: function(nameReturn) {
             $('#image_change').attr('src',local_link+nameReturn);
             $("#note_image").css('display', 'none');
-            $("#nameimage").val(nameReturn); 
+            $("#nameimage").val(nameReturn);
+            $("#url_image_input").val('');  
         },
         error: function (reject) {
             $('#image_change').attr('src','');

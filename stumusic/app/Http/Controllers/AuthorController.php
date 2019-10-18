@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Artist;
+use App\Author;
 use App\Image;
-class ArtistController extends Controller
+
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class ArtistController extends Controller
      */
     public function index()
     {
-       $artists = Artist::select()->get();
-        return view('admin.artist.list', ['artists' => $artists]);
+        $authors = Author::select()->get();
+        return view('admin.author.list', ['authors' => $authors]);
     }
 
     /**
@@ -25,7 +26,7 @@ class ArtistController extends Controller
      */
     public function create()
     {
-        return view('admin.artist.form');
+        return view('admin.author.form');
     }
 
     /**
@@ -36,7 +37,6 @@ class ArtistController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $rule=[
             'name' =>  "required",
             'content' =>  "required",
@@ -49,13 +49,13 @@ class ArtistController extends Controller
             'content' => $request->content,
             'follow' => 0,
         ];
-        if ($artist = Artist::create($data_create)) {
+        if ($author = Author::create($data_create)) {
             $data_image = [
                "src" => $data_create['image'],
             ];
-            $artist->images()->create($data_image);
+            $author->images()->create($data_image);
         }
-        return redirect()->route('admin.artist_index');
+        return redirect()->route('admin.author_index');
     }
 
     /**
@@ -77,8 +77,8 @@ class ArtistController extends Controller
      */
     public function edit($id)
     {
-        $artist = Artist::find($id);
-        return view('admin.artist.form',['artist' => $artist]);    
+        $author = Author::find($id);
+        return view('admin.author.form',['author' => $author]);  
     }
 
     /**
@@ -90,7 +90,7 @@ class ArtistController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $rule=[
+        $rule=[
             'name' =>  "required",
             'content' =>  "required",
             'nameimage' =>  "required",
@@ -102,18 +102,18 @@ class ArtistController extends Controller
             'image_old' => $request->nameimage_old,
             'content' => $request->content,
         ];
-        $artist = Artist::find($id);
-        if ($artist->update($data_update)) {
+        $author = Author::find($id);
+        if ($author->update($data_update)) {
             if ($data_update['image'] != $data_update['image_old']) {
                 $data_image = [
                    "src" => $data_update['image'],
                 ];
-                $artist->images()->update($data_image);
+                $author->images()->update($data_image);
                 unlink(public_path($data_update['image_old']));
             }
              
          } 
-        return redirect()->route('admin.artist_index');
+        return redirect()->route('admin.author_index');
     }
 
     /**
@@ -124,14 +124,14 @@ class ArtistController extends Controller
      */
     public function destroy($id)
     {
-        $artist = Artist::find($id);
-        $id_image_artis = $artist->images[0]->id;
-        $artist_image = Image::find($id_image_artis);
-        $link_image= $artist->images[0]->src;
-        if ($artist->delete()) {
-            $artist_image->delete();
+        $author = Author::find($id);
+        $id_image_artis = $author->images[0]->id;
+        $author_image = Image::find($id_image_artis);
+        $link_image= $author->images[0]->src;
+        if ($author->delete()) {
+            $author_image->delete();
             unlink(public_path($link_image));
         }
-        return redirect()->route('admin.artist_index');
+        return redirect()->route('admin.author_index');
     }
 }

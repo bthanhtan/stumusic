@@ -27,13 +27,14 @@
 	<div class="form-group">
 		<label>image</label>
 		<input id="url_image_input" type="file" class="form-control" name="image"  onchange="check_image(this)">
-
-		<img src="" id="image_change" class="img-rounded" alt="hình ảnh bài hát" style="max-width: 150px;">
+		
+		<img src="{{isset($artist->id) ? url($artist->images[0]->src) : ''}}" id="image_change" class="img-rounded" alt="hình ảnh bài hát" style="max-width: 150px;">
 		<small id="note_image" id="emailHelp" class="form-text" style="display: none;"></small>
 	</div>
 	<div class="form-group" style="display: none;">
 		<label>NameImage</label>
-		<input id="nameimage" type="text" class="form-control" name="nameimage" value="">
+		<input id="nameimage" type="text" class="form-control" name="nameimage" value="{{isset($artist->id) ? $artist->images[0]->src : ''}}">
+		<input id="nameimage" type="text" class="form-control" name="nameimage_old" value="{{isset($artist->id) ? $artist->images[0]->src : ''}}">
 	</div>
 	<div class="form-group">
 		<label>content</label>

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Artist extends Model
+class Author extends Model
 {
     protected $fillable = ['name', 'content', 'follow', 'song_id'];
     public function songs()

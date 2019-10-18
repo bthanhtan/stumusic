@@ -14,7 +14,7 @@
 		<div style="color: red;">{{$error}}</div>
 	@endforeach
 @endif
-<a href="{{route('admin.artist_create')}}" class="btn btn-primary">Create</a>
+<a href="{{route('admin.author_create')}}" class="btn btn-primary">Create</a>
 <table class="table">
   <thead>
     <tr>
@@ -26,15 +26,15 @@
     </tr>
   </thead>
   <tbody>
-  	@foreach ($artists as $key => $artist)
+  	@foreach ($authors as $key => $author)
     <tr>
       <th scope="row">{{$key + 1}}</th>
-      <td>{{$artist->name}}</td>
-      <td><img src="{{url($artist->images[0]->src)}}" alt="" width="150"></td>
-      <td>{{$artist->content}}</td>
+      <td>{{$author->name}}</td>
+      <td><img src="{{url($author->images[0]->src)}}" alt="" width="150"></td>
+      <td>{{$author->content}}</td>
       <td>
-      	<a href="{{route('admin.artist_edit',['id'=>$artist->id])}}" class="btn btn-warning">Edit</a> <br>
-      	<form action="{{route('admin.artist_delete', ['id' => $artist->id])}}" method="post" accept-charset="utf-8">
+      	<a href="{{route('admin.author_edit',['id'=>$author->id])}}" class="btn btn-warning">Edit</a> <br>
+      	<form action="{{route('admin.author_delete', ['id' => $author->id])}}" method="post" accept-charset="utf-8">
       		@csrf
       		@method('delete')
       		<button type="submit" class="btn btn-danger">Delete</button>

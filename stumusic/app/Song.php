@@ -6,10 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Song extends Model
 {
-    protected $fillable = ['name','hot','singer_id','musician_id','user_id','type','view','heart'];
-    public function collection()
+    protected $fillable = ['name','hot','artist_id','author_id','user_id','genre_id','view','heart'];
+    public function genres()
     {
-    	return $this->belongTo('App\Collection');
+        return $this->belongTo('App\Genre');
+    }
+    public function artists()
+    {
+        return $this->belongTo('App\Artists');
+    }
+    public function athours()
+    {
+        return $this->belongTo('App\Athours');
     }
     public function urlsongs()
     {

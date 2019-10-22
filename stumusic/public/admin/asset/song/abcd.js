@@ -1,4 +1,5 @@
-var local_link = 'http://localhost/Laravel/nhac/stumusic/stumusic/public/';
+// var local_link = 'http://localhost/Laravel/nhac/stumusic/stumusic/public/';
+var local_link = 'http://localhost/stumusic/stumusic/public/';
 function check_audio(this_btn) {
 	var data_file = this_btn.files;
     var token = $('meta[name="csrf-token"]').attr('content');
@@ -59,6 +60,7 @@ function check_image(this_btn) {
             $('#image_change').attr('src',local_link+nameReturn);
             $("#note_image").css('display', 'none');
             $("#nameimage").val(nameReturn); 
+            $("#url_image_input").val(''); 
         },
         error: function (reject) {
             $('#image_change').attr('src','');

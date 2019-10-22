@@ -50,7 +50,7 @@
 		<select class="browser-default custom-select custom-select-lg mb-3" name="singer_id">
 		  <option selected value="0">Chưa rõ tên</option>
 		@foreach($singers as $singger)
-		  <option value="{{$singger->id}}" @if (old('singer_id') == $singger->id) {{ 'selected' }} @endif>{{$singger->name}}</option>
+		  <option value="{{$singger->id}}" {{(old('singer_id') == $singger->id) ? 'selected' : '' }} >{{$singger->name}}</option>
 		@endforeach
 		</select>
 		<small id="emailHelp" class="form-text text-muted">Tên ca sỹ</small>
@@ -60,7 +60,7 @@
 		<select class="browser-default custom-select custom-select-lg mb-3" name="musician_id">
 		  <option selected value="0">Chưa rõ tên</option>
 		@foreach($mucicians as $mucician)
-		  <option value="{{$mucician->id}}" @if (old('musician_id') == $mucician->id) {{ 'selected' }} @endif>{{$mucician->name}}</option>
+		  <option value="{{$mucician->id}}" {{(old('musician_id') == $singger->id) ? 'selected' : '' }} >{{$mucician->name}}</option>
 		@endforeach
 		</select>
 		<small id="emailHelp" class="form-text text-muted">tên nhạc sỹ</small>
@@ -70,7 +70,7 @@
 		<select class="browser-default custom-select custom-select-lg mb-3" name="type">
 		  <option value="">Chưa rõ tên</option>
 			@foreach($collections as $collection)
-				<option value="{{$collection->id}}" @if (old('type') == $collection->id) {{ 'selected' }} @endif>nhạc {{$collection->country}}, thể loại: {{$collection->type}}</option>
+				<option value="{{$collection->id}}" {{(old('collection') == $singger->id) ? 'selected' : '' }}>nhạc {{$collection->country}}, thể loại: {{$collection->type}}</option>
 			@endforeach
 		</select>
 		<small id="emailHelp" class="form-text text-muted">tên thẻ loại nhạc</small>

@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/abc', function () {
+    return view('listener.master');
+});
+
+
 Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::get('/collection', 'CollectionController@index')->name('collection_index');
     Route::get('/collection/create', 'CollectionController@create')->name('collection_create');
@@ -86,6 +91,16 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::put('/mylist_detail/update/{id}', 'Mylist_detailController@update')->name('mylist_detail_update');
     Route::delete('/mylist_detail/delete/{id}', 'Mylist_detailController@destroy')->name('mylist_detail_delete');
 });
+
+
+
+
+Route::group(['prefix'=>'listener','as'=>'listener.'], function(){
+    Route::get('/', 'ListenerController@index')->name('listener_index');
+});
+
+
+
 
 
 

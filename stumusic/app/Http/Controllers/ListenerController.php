@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Genre_detailController extends Controller
+class ListenerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class Genre_detailController extends Controller
      */
     public function index()
     {
-        //
+        return view('listener.index');
     }
 
     /**

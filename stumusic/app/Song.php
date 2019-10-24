@@ -13,11 +13,15 @@ class Song extends Model
     }
     public function artists()
     {
-        return $this->belongTo('App\Artists');
+        return $this->belongTo('App\Artist');
     }
     public function athours()
     {
-        return $this->belongTo('App\Athours');
+        return $this->belongTo('App\Athour');
+    }
+    public function mylist_details()
+    {
+        return $this->belongTo('App\Mylist_detail');
     }
     public function urlsongs()
     {

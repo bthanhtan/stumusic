@@ -71,6 +71,20 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function(){
     Route::get('/song/edit/{id}', 'SongController@edit')->name('song_edit');
     Route::put('/song/update/{id}', 'SongController@update')->name('song_update');
     Route::delete('/song/delete/{id}', 'SongController@destroy')->name('song_delete');
+
+    Route::get('/mylist', 'MylistController@index')->name('mylist_index');
+    Route::get('/mylist/create', 'MylistController@create')->name('mylist_create');
+    Route::post('/mylist/store', 'MylistController@store')->name('mylist_store');
+    Route::get('/mylist/edit/{id}', 'MylistController@edit')->name('mylist_edit');
+    Route::put('/mylist/update/{id}', 'MylistController@update')->name('mylist_update');
+    Route::delete('/mylist/delete/{id}', 'MylistController@destroy')->name('mylist_delete');
+
+    Route::get('/mylist_detail', 'Mylist_detailController@index')->name('mylist_detail_index');
+    Route::get('/mylist_detail/create', 'Mylist_detailController@create')->name('mylist_detail_create');
+    Route::post('/mylist_detail/store', 'Mylist_detailController@store')->name('mylist_detail_store');
+    Route::get('/mylist_detail/edit/{id}', 'Mylist_detailController@edit')->name('mylist_detail_edit');
+    Route::put('/mylist_detail/update/{id}', 'Mylist_detailController@update')->name('mylist_detail_update');
+    Route::delete('/mylist_detail/delete/{id}', 'Mylist_detailController@destroy')->name('mylist_detail_delete');
 });
 
 
